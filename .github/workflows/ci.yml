@@ -18,7 +18,7 @@ jobs:
           MONGO_INITDB_ROOT_USERNAME: ${{ secrets.DB_USERNAME }}
           MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
         options: >-
-          --health-cmd "mongosh --quiet --eval 'db.adminCommand(\"ping\")'"
+          --health-cmd "echo 'db.runCommand({ping:1})' | mongosh --quiet"
           --health-interval 10s 
           --health-timeout 5s 
           --health-retries 5
@@ -30,6 +30,12 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Install MongoDB Shell
+      run: |
+        wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -
+        echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+        sudo apt-get update
+        sudo apt-get install -y mongodb-mongosh
     - name: Cache Maven dependencies
       uses: actions/cache@v4
       with:
