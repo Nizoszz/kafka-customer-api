@@ -1,16 +1,13 @@
 name: CI
-
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ develop ]
-
 jobs:
   build:
     name: Build and Test Java Project
     runs-on: ubuntu-latest
-
     services:
       mongo:
         image: mongo:latest
@@ -21,21 +18,18 @@ jobs:
           MONGO_INITDB_ROOT_USERNAME: ${{ secrets.DB_USERNAME }}
           MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
         options: >-
-          --health-cmd "mongosh --eval 'db.stats()'"
-          --health-interval 20s 
-          --health-timeout 10s 
-          --health-retries 10
-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
-
     - name: Cache Maven dependencies
       uses: actions/cache@v4
       with:
@@ -43,23 +37,12 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-
+    - name: Check MongoDB connection
+      run: |
+        sleep 10
+        echo "Verificando conexão com MongoDB..."
+        mongosh --host localhost:27017 --username ${{ secrets.DB_USERNAME }} --password ${{ secrets.DB_PASS }} --eval "db.runCommand({ping: 1})"
     - name: Build with Maven
       run: mvn clean install
-
     - name: Run tests
       run: mvn test
-
-    - name: Wait for MongoDB to be ready
-      run: |
-        until docker exec -it ${{ job.services.mongo.id }} mongosh --eval 'db.stats()'; do
-          echo "Waiting for MongoDB to be ready..."
-          sleep 5
-        done
-        echo "MongoDB is ready!"
-
-    - name: View MongoDB logs
-      run: docker logs ${{ job.services.mongo.id }}
-
-    - name: Check if MongoDB container is running
-      run: docker ps -f name=mongo
