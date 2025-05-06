@@ -21,10 +21,10 @@ jobs:
           MONGO_INITDB_ROOT_USERNAME: ${{ secrets.DB_USERNAME }}
           MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
         options: >-
-          --health-cmd "mongosh --eval 'db.stats()'" 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 5
+          --health-cmd "mongosh --eval 'db.stats()'"
+          --health-interval 20s 
+          --health-timeout 10s 
+          --health-retries 10
 
     steps:
     - name: Checkout repository
@@ -49,3 +49,17 @@ jobs:
 
     - name: Run tests
       run: mvn test
+
+    - name: Wait for MongoDB to be ready
+      run: |
+        until docker exec -it ${{ job.services.mongo.id }} mongosh --eval 'db.stats()'; do
+          echo "Waiting for MongoDB to be ready..."
+          sleep 5
+        done
+        echo "MongoDB is ready!"
+
+    - name: View MongoDB logs
+      run: docker logs ${{ job.services.mongo.id }}
+
+    - name: Check if MongoDB container is running
+      run: docker ps -f name=mongo
