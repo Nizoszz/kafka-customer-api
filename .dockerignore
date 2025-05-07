@@ -1,0 +1,14 @@
+# Evitar arquivos desnecessários na imagem
+.idea
+*.iml
+target/
+build/
+out/
+*.log
+*.env
+.git
+.gitignore
+
+# Evitar arquivos de build e orquestração irem pro container
+Dockerfile
+compose.yaml
