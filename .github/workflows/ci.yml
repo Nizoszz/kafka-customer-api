@@ -55,7 +55,7 @@ jobs:
     - name: Generate Tag
       id: generate_tag
       run: |
-        SHA=${echo $GITHUB_SHA | head -c7}
+        SHA=$(echo $GITHUB_SHA | head -c7)
         echo "sha=$SHA" >> $GITHUB_OUTPUT
     - name: Version update release
       run: mvn versions:set -DnewVersion=${{ github.run_number }}
