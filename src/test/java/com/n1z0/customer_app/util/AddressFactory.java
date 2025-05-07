@@ -1,0 +1,9 @@
+package com.n1z0.customer_app.util;
+
+import com.n1z0.customer_app.domain.Address;
+
+public class AddressFactory{
+    public Address createAddress(){
+        return new Address("Rua das Acácias"," 123","Jardim Primavera"," São Paulo","SP", "04567-890");
+    }
+}
