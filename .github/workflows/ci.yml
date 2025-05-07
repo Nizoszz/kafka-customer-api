@@ -48,7 +48,17 @@ jobs:
         sleep 10
         echo "Verificando conexão com MongoDB..."
         mongosh --host localhost:27017 --username ${{ secrets.DB_USERNAME }} --password ${{ secrets.DB_PASS }} --eval "db.runCommand({ping: 1})"
-    - name: Build with Maven
-      run: mvn clean install
     - name: Run tests
       run: mvn test
+    - name: Build with Maven
+      run: mvn clean install -DskipTests
+    - name: Generate Tag
+      id: generate_tag
+      run: |
+        SHA=${echo $GITHUB_SHA | head -c7}
+        echo "sha=$SHA" >> $GITHUB_OUTPUT
+    - name: Version update release
+      run: mvn versions:set -DnewVersion=${{ github.run_number }}
+    - name: Build docker image
+      run: docker build -t kafka-customer-api:${{ steps.generate_tag.outputs.sha }} .
+
