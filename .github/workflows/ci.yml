@@ -60,5 +60,5 @@ jobs:
     - name: Version update release
       run: mvn versions:set -DnewVersion=${{ github.run_number }}
     - name: Build docker image
-      run: docker build -t kafka-customer-api:${{ steps.generate_tag.outputs.sha }} .
+      run: docker build -t kafka-customer-api:${{ steps.generate_tag.outputs.sha }} -f Dockerfile .
 
