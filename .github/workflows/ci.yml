@@ -67,5 +67,6 @@ jobs:
     - name: Build and push image
       uses: docker/build-and-push-action/@v6
       with:
+        context: .
         push: true
         tags: nizoszz/kafka-customer-api:${{ steps.generate_tag.outputs.sha }}, nizoszz/kafka-customer-api:latest
