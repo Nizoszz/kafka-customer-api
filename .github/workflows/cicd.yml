@@ -79,9 +79,8 @@ jobs:
     - name: Check health application with actuator
       run: |
         echo "Waiting for application to reply..."
-        echo "Checking health at URL: ${{ secrets.RENDER_API_URL }}/actuator/health/readiness"
         for i in $(seq 1 30); do
-          STATUS=$(curl -s --max-time 120 -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_API_URL }}/actuator/health/readiness" || true)
+          STATUS=$(curl -s --max-time 120 -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_URL_API }}/actuator/health/readiness" || true)
           if [ "$STATUS" = "200" ]; then
             echo "✅ Application answered successfully."
             exit 0
