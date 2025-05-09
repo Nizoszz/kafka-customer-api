@@ -30,10 +30,17 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Install MongoDB Shell
+      run: |
+        wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -
+        echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+        sudo apt-get update
+        sudo apt-get install -y mongodb-mongosh
     - name: Check MongoDB connection
       run: |
-        sudo apt-get update && sudo apt-get install -y mongodb-clients
-        mongosh --host localhost -u "${{ secrets.DB_USERNAME }}" -p "${{ secrets.DB_PASS }}" --eval "db.runCommand({ping:1})"
+        sleep 10
+        echo "Verificando conexão com MongoDB..."
+        mongosh --host localhost:27017 --username ${{ secrets.DB_USERNAME }} --password ${{ secrets.DB_PASS }} --eval "db.runCommand({ping: 1})"
     - name: Set MongoDB URI for Spring Boot
       run: |
         echo "MONGODB_URI=mongodb://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASS }}@localhost:27017/${{ secrets.DB_NAME }}?authSource=admin" >> $GITHUB_ENV
