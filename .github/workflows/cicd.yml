@@ -73,3 +73,18 @@ jobs:
     - name: Trigger deploy on render
       run: |
         curl -X POST ${{ secrets.RENDER_WEBHOOK }}
+    - name: Check health application with actuator
+      run: |
+        echo "Waiting for application to reply..."
+        for i in {1..30}; do
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_API_URL }}/actuator/health")
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Application answered successfully."
+            exit 0
+          fi
+          echo "Try $i... no reply yet (status: $STATUS)"
+          sleep 5
+        done
+    
+        echo "❌ The application did not respond to the health check in time."
+        exit 1
