@@ -1,6 +1,6 @@
 package com.n1z0.customer_app.util;
 
-import com.n1z0.customer_app.domain.Document;
+import com.n1z0.customer_app.domain.model.Document;
 
 public class DocumentFactory{
     public Document createCnpj(){

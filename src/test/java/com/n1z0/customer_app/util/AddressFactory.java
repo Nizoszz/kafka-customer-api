@@ -1,6 +1,6 @@
 package com.n1z0.customer_app.util;
 
-import com.n1z0.customer_app.domain.Address;
+import com.n1z0.customer_app.domain.model.Address;
 
 public class AddressFactory{
     public Address createAddress(){
