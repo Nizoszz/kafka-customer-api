@@ -40,11 +40,6 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-    - name: Check MongoDB connection
-      run: |
-        sleep 10
-        echo "Verificando conexão com MongoDB..."
-        mongosh --host localhost:27017 --username ${{ secrets.DB_USERNAME }} --password ${{ secrets.DB_PASS }} --eval "db.runCommand({ping: 1})"
     - name: Build with Maven
       run: mvn clean install -DskipTests
     - name: Run tests
