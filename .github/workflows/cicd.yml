@@ -32,8 +32,8 @@ jobs:
         distribution: 'temurin'
     - name: Check MongoDB connection
       run: |
-        apt-get update && apt-get install -y mongodb-clients
-        mongosh --host 127.0.0.1 -u "${{ secrets.DB_USERNAME }}" -p "${{ secrets.DB_PASS }}" --eval "db.runCommand({ping:1})"
+        sudo apt-get update && sudo apt-get install -y mongodb-clients
+        mongosh --host localhost -u "${{ secrets.DB_USERNAME }}" -p "${{ secrets.DB_PASS }}" --eval "db.runCommand({ping:1})"
     - name: Set MongoDB URI for Spring Boot
       run: |
         echo "MONGODB_URI=mongodb://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASS }}@localhost:27017/${{ secrets.DB_NAME }}?authSource=admin" >> $GITHUB_ENV
