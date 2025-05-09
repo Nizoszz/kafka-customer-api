@@ -32,7 +32,7 @@ jobs:
         distribution: 'temurin'
     - name: Set MongoDB URI for Spring Boot
       run: |
-        echo "MONGODB_URI=mongodb+srv://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASS }}@mongo:27017/${{ secrets.DB_NAME }}?authSource=admin" >> $GITHUB_ENV
+        echo "MONGODB_URI=mongodb://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASS }}@mongo:27017/${{ secrets.DB_NAME }}?authSource=admin" >> $GITHUB_ENV
     - name: Cache Maven dependencies
       uses: actions/cache@v4
       with:
