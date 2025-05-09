@@ -80,7 +80,7 @@ jobs:
       run: |
         echo "Waiting for application to reply..."
         for i in $(seq 1 60); do
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_API_URL }}/actuator/health/readiness")
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_API_URL }}/actuator/health/readiness" || true)
           if [ "$STATUS" = "200" ]; then
             echo "✅ Application answered successfully."
             exit 0
