@@ -1,8 +1,7 @@
-package com.n1z0.customer_app.domain;
+package com.n1z0.customer_app.domain.model;
 
 import lombok.Getter;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Getter

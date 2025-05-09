@@ -1,5 +1,8 @@
 package com.n1z0.customer_app.domain;
 
+import com.n1z0.customer_app.domain.model.Address;
+import com.n1z0.customer_app.domain.model.Customer;
+import com.n1z0.customer_app.domain.model.Document;
 import com.n1z0.customer_app.util.AddressFactory;
 import com.n1z0.customer_app.util.CustomerFactory;
 import com.n1z0.customer_app.util.DocumentFactory;

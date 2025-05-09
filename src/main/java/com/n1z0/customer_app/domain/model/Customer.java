@@ -1,7 +1,6 @@
-package com.n1z0.customer_app.domain;
+package com.n1z0.customer_app.domain.model;
 
 import lombok.Data;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.UUID;
