@@ -1,6 +1,6 @@
 package com.n1z0.customer_app.util;
 
-import com.n1z0.customer_app.domain.Customer;
+import com.n1z0.customer_app.domain.model.Customer;
 
 public class CustomerFactory {
     public Customer createCustomer(){
