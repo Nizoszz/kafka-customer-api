@@ -13,6 +13,13 @@ public class Address {
     private String state;
     private String zipCode;
 
+    public Address(String street, String neighborhood, String city, String state, String zipCode) {
+        this.street = street;
+        this.neighborhood = neighborhood;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+    }
     public Address(String street, String number, String neighborhood, String city, String state, String zipCode) {
         if(!this.isValid(street, number, neighborhood, city, state, zipCode)) {
             throw new IllegalArgumentException("Values cannot be null or blank");
