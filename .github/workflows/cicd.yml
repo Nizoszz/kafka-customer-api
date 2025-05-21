@@ -44,13 +44,6 @@ jobs:
     - name: Set MongoDB URI for Spring Boot
       run: |
         echo "MONGODB_URI=mongodb://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASS }}@localhost:27017/${{ secrets.DB_NAME }}?authSource=admin" >> $GITHUB_ENV
-    - name: Cache Maven dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
     - name: Build with Maven
       run: mvn clean install -DskipTests
     - name: Run tests
