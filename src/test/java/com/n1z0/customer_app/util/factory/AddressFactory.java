@@ -1,4 +1,4 @@
-package com.n1z0.customer_app.util;
+package com.n1z0.customer_app.util.factory;
 
 import com.n1z0.customer_app.domain.model.Address;
 
